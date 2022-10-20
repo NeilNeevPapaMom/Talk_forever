@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Talk online</title>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.js'></script>
+</head>
+<style>
+.style1 {
+    background-color:green;
+    font-family:verdana;
+    font-color:white;
+}
+</style>
+<body style="text-align:center; font-size:20pt;">
+<script type="text/javascript">
+    $(document).ready(function() {
+        var socket = io.connect('http://192.168.0.168:5000')
+        socket.on('connect', function() {
+            socket.send('User connected!');
+        });
+
+        socket.on('message', function(data) {
+            $('#messages').append($('<p>').text(data));
+        });
+        $('#sendBtn').on('click', function () {
+            socket.send($('#username').val() + '> ' + $('#message').val());
+            $('#message').val('');
+        });
+    })
+</script>
+<div id="messages" style="color:blue; font-family:Courier;">
+
+</div>
+<noscript><p>Sorry, your browser does not support javascript.</p></noscript>
+<br>
+<input type="text" id="username" placeholder="Username">
+<br>
+<br>
+<br>
+<input type="text" id="message" placeholder="Message">
+<br>
+<br>
+<br>
+<button id="sendBtn" class="style1"><b>GO &#8680;</b></button>
+</body>
+</html>
